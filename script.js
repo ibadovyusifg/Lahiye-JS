@@ -1,4 +1,3 @@
-// fenlerin siyahisi
 var fenler = [
     {
         kod: "CS301",
@@ -92,12 +91,8 @@ var fenler = [
     }
 ];
 
-
-// aktiv filter
 var aktivFilter = "Hamısı";
 
-
-// dile gore "kredit", "saat" sozleri
 function kreditSozu() {
     var dil = localStorage.getItem("sayt_dili") || "az";
     if (dil == "en") return "credits";
@@ -111,7 +106,6 @@ function saatSozu() {
     return "saat";
 }
 function semestrSozu(metn) {
-    // "5-ci semestr" → ingiliscede "5th semester", rusca "5-й семестр"
     var dil = localStorage.getItem("sayt_dili") || "az";
     if (dil == "az") return metn;
     var reqem = metn.split("-")[0];
@@ -120,13 +114,9 @@ function semestrSozu(metn) {
     return metn;
 }
 
-
-// fenleri ekrana cixarmaq
 function fenleriYukle() {
     var list = document.getElementById("courseList");
     var html = "";
-
-    // hansilari gosterek
     var gosterilecek = [];
     if (aktivFilter == "Hamısı") {
         gosterilecek = fenler;
@@ -138,7 +128,6 @@ function fenleriYukle() {
         }
     }
 
-    // bos olarsa
     if (gosterilecek.length == 0) {
         list.innerHTML = '<div style="text-align:center; padding:60px; color:dimgray; grid-column: 1 / -1;">Bu kateqoriyada fənn tapılmadı</div>';
         return;
@@ -146,7 +135,6 @@ function fenleriYukle() {
 
     for (var i = 0; i < gosterilecek.length; i++) {
         var f = gosterilecek[i];
-        // bakalavr ve magistr ucun ayri kod renqi
         var kodClass = "badge-code";
         if (f.seviyye == "Magistr") {
             kodClass = "badge-code-ms";
@@ -170,12 +158,8 @@ function fenleriYukle() {
     list.innerHTML = html;
 }
 
-
-// filteri deyishende
 function filterDeyish(yeniFilter) {
     aktivFilter = yeniFilter;
-
-    // butun dugmelerden active-i sil, ondan sonra olana qoy
     var dugmeler = document.querySelectorAll(".filter-btn");
     for (var i = 0; i < dugmeler.length; i++) {
         dugmeler[i].classList.remove("active");
@@ -186,15 +170,10 @@ function filterDeyish(yeniFilter) {
 
     fenleriYukle();
 }
-
-
-// dil deyishende fenleri yeniden yukleyirik
 var kohne_dilDeyish_fn = window.dilDeyish;
 window.dilDeyish = function(yeniDil) {
     if (kohne_dilDeyish_fn) kohne_dilDeyish_fn(yeniDil);
     fenleriYukle();
 };
 
-
-// sayfa yuklenende
 fenleriYukle();
